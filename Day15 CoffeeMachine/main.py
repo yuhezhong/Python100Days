@@ -21,6 +21,25 @@ def order():
     return cost, coffee
 
 
+def ingredient_cost(coffee):
+    if menu.resources['water'] - menu.MENU[coffee]['ingredients']['water'] >= 0:
+        flag = True
+        menu.resources['water'] -= menu.MENU[coffee]['ingredients']['water']
+    else:
+        print(f'Sorry there is not enough water.')
+    if menu.resources['milk'] - menu.MENU[coffee]['ingredients']['milk'] >= 0:
+        flag = True
+        menu.resources['milk'] -= menu.MENU[coffee]['ingredients']['milk']
+    else:
+        print(f'Sorry there is not enough milk.')
+    if menu.resources['coffee'] - menu.MENU[coffee]['ingredients']['coffee'] >= 0:
+        flag = True
+        menu.resources['coffee'] -= menu.MENU[coffee]['ingredients']['coffee']
+    else:
+        print(f'Sorry there is not enough milk.')
+    return flag
+
+
 def money():
     print("Please insert coins.")
     money_spent = 0
@@ -42,8 +61,11 @@ def compare_money(total_cost, money, coffee):
         print(f"Here is ${money - total_cost} in change.\nHere is your {coffee} ☕️. Enjoy!")
 
 
-result = order()
-total_cost, coffee = result
+flag = True
+while flag:
+    result = order()
+    total_cost, coffee = result
 
-money = money()
-compare_money(total_cost, money, coffee)
+    money = money()
+    compare_money(total_cost, money, coffee)
+    flag = ingredient_cost(coffee)
