@@ -42,7 +42,7 @@ def ingredient_cost(coffee):
 
 
 def money():
-    print("Please insert coins.")
+    print("Hi Bunny! Please insert coins.")
     money_spent = 0
     quarter = input("how many quarters($0.25)? ")
     money_spent += int(quarter) * 0.25
