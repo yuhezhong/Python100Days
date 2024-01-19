@@ -30,3 +30,20 @@ resources = {
     "milk": 200,
     "coffee": 100,
 }
+
+# What would you like? (espresso/latte/cappuccino): espresso
+# Please insert coins.
+# how many quarters?: 4
+# how many dimes?: 5
+# how many nickles?: 0
+# how many pennies?: 0
+# Here is $0.0 in change.
+# Here is your espresso ☕️. Enjoy!
+# What would you like? (espresso/latte/cappuccino): latte
+# Please insert coins.
+# how many quarters?: 8
+# how many dimes?: 5
+# how many nickles?: 0
+# how many pennies?: 0
+# Here is $0.0 in change.
+# Here is your latte ☕️. Enjoy!
