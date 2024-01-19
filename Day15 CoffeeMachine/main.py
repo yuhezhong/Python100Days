@@ -1,3 +1,4 @@
+import os
 import menu
 
 
@@ -43,15 +44,19 @@ def ingredient_cost(coffee):
 def money():
     print("Please insert coins.")
     money_spent = 0
-    quarter = input("how many quarters? ")
+    quarter = input("how many quarters($0.25)? ")
     money_spent += int(quarter) * 0.25
-    dime = input("how many dimes? ")
+    dime = input("how many dimes($0.10)? ")
     money_spent += int(dime) * 0.10
-    nickle = input("how many nickles? ")
+    nickle = input("how many nickles($0.05)? ")
     money_spent += int(nickle) * 0.05
-    penny = input("how many pennies? ")
+    penny = input("how many pennies($0.01)? ")
     money_spent += int(penny) * 0.01
     return money_spent
+
+
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def compare_money(total_cost, money, coffee):
@@ -69,3 +74,4 @@ while flag:
     money = money()
     compare_money(total_cost, money, coffee)
     flag = ingredient_cost(coffee)
+    clear_console()
