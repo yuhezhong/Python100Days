@@ -3,7 +3,7 @@ import menu
 
 
 def order():
-    user_order = input("What would you like? (espresso/latte/cappuccino): ")
+    user_order = input("What would you like? espresso($1.5)/latte($2.5)/cappuccino($3.0): ")
     if user_order == 'espresso':
         cost = menu.MENU['espresso']['cost']
         coffee = 'espresso'
@@ -14,34 +14,50 @@ def order():
         cost = menu.MENU['cappuccino']['cost']
         coffee = 'cappuccino'
     elif user_order == 'report':
-        print(menu.resources)
+        for key, value in menu.resources.items():
+            print(f"{key}: {value}")
+        return None, None, None  # 返回空值表示没有进行购买操作
     elif user_order == 'off':
-        return 0
+        return 0, None, None  # 返回0表示退出程序
     else:
         print('Invalid input!')
-    return cost, coffee
+        return None, None, None  # 返回空值表示没有进行购买操作
+    return cost, coffee, user_order
 
 
 def ingredient_cost(coffee):
-    if menu.resources['water'] - menu.MENU[coffee]['ingredients']['water'] >= 0:
-        flag = True
-        menu.resources['water'] -= menu.MENU[coffee]['ingredients']['water']
+    if coffee == 'espresso':
+        if menu.resources['water'] - menu.MENU[coffee]['ingredients']['water'] >= 0:
+            menu.resources['water'] -= menu.MENU[coffee]['ingredients']['water']
+        else:
+            print(f'Sorry there is not enough water.')
+            return False
+        if menu.resources['coffee'] - menu.MENU[coffee]['ingredients']['coffee'] >= 0:
+            menu.resources['coffee'] -= menu.MENU[coffee]['ingredients']['coffee']
+        else:
+            print(f'Sorry there is not enough coffee.')
+            return False
     else:
-        print(f'Sorry there is not enough water.')
-    if menu.resources['milk'] - menu.MENU[coffee]['ingredients']['milk'] >= 0:
-        flag = True
-        menu.resources['milk'] -= menu.MENU[coffee]['ingredients']['milk']
-    else:
-        print(f'Sorry there is not enough milk.')
-    if menu.resources['coffee'] - menu.MENU[coffee]['ingredients']['coffee'] >= 0:
-        flag = True
-        menu.resources['coffee'] -= menu.MENU[coffee]['ingredients']['coffee']
-    else:
-        print(f'Sorry there is not enough milk.')
-    return flag
+        if menu.resources['water'] - menu.MENU[coffee]['ingredients']['water'] >= 0:
+            menu.resources['water'] -= menu.MENU[coffee]['ingredients']['water']
+        else:
+            print(f'Sorry there is not enough water.')
+            return False
+        if menu.resources['milk'] - menu.MENU[coffee]['ingredients']['milk'] >= 0:
+            menu.resources['milk'] -= menu.MENU[coffee]['ingredients']['milk']
+        else:
+            print(f'Sorry there is not enough milk.')
+            return False
+        if menu.resources['coffee'] - menu.MENU[coffee]['ingredients']['coffee'] >= 0:
+            menu.resources['coffee'] -= menu.MENU[coffee]['ingredients']['coffee']
+        else:
+            print(f'Sorry there is not enough coffee.')
+            return False
+    return True
 
 
-def money():
+
+def get_money():
     print("Hi Bunny! Please insert coins.")
     money_spent = 0
     quarter = input("how many quarters($0.25)? ")
@@ -69,9 +85,12 @@ def compare_money(total_cost, money, coffee):
 flag = True
 while flag:
     result = order()
-    total_cost, coffee = result
+    total_cost, coffee, user_order = result
 
-    money = money()
-    compare_money(total_cost, money, coffee)
-    flag = ingredient_cost(coffee)
-    clear_console()
+    if total_cost is not None and coffee is not None:
+        flag = ingredient_cost(coffee)
+        if flag:
+            money_value = get_money()
+            compare_money(total_cost, money_value, coffee)
+
+    # clear_console()
